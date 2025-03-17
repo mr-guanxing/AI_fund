@@ -49,4 +49,9 @@ for i in range(m):
 
 start_node = my_graph.nodes[0]  
 result = dijkstra(my_graph, start_node)
-print(result[n])
+r= result[n]
+if r == float('inf'):
+    print(-1)
+else:
+    print(r)
+

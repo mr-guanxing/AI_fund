@@ -40,8 +40,7 @@ while not q.empty():
     BFS(my_node,q)
 
 dis = my_graph.nodes[n-1].distence
-print(dis)
-if dis == 0:
+if dis == 0 and n!=1:
     print(-1)
 else:
     print(dis)
