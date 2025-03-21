@@ -47,7 +47,7 @@ def is_solvable(state):
     return inversion_number(state) % 2 == 0
 
 def Cost(state_str):
-    target_pos = {str(i): (i // 3, i % 3) for i in range(1, 9)}
+    target_pos = {str(i): ((i-1) // 3, (i-1) % 3) for i in range(1, 9)}
     target_pos["x"] = (2, 2)  
     cost = 0
     for i in range(3):
@@ -62,16 +62,15 @@ def a_star(start_state):
     target_str = "12345678x"
     priority_queue = [Node(start_str, Cost(start_str), "")]
     visited = set()
-    visited.add(start_str)
 
     while priority_queue:
         current = heapq.heappop(priority_queue)
+        visited.add(current.state)
         if current.state == target_str:
             return current.path
 
         for neighbor, move in get_neighbors(current.state):
             if neighbor not in visited:
-                visited.add(neighbor)
                 new_cost = current.dist - Cost(current.state) + Cost(neighbor) + 1
                 new_path = current.path + {(-1,0): "u", (1,0): "d", (0,-1): "l", (0,1): "r"}[move]
                 heapq.heappush(priority_queue, Node(neighbor, new_cost, new_path))

@@ -37,16 +37,16 @@ def dijkstra(start_state):
     target_str = "12345678x"
     priority_queue = [Node(start_str, 0)]
     visited = set()
-    visited.add(start_str)
+    # visited.add(start_str)
 
     while priority_queue:
         current = heapq.heappop(priority_queue)
+        visited.add(current.state)
         if current.state == target_str:
             return current.dist
 
         for neighbor in get_neighbors(current.state):
             if neighbor not in visited:
-                visited.add(neighbor)
                 heapq.heappush(priority_queue, Node(neighbor, current.dist + 1))
 
     return -1
