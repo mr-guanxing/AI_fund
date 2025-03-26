@@ -1,5 +1,5 @@
 # bfs
-from maze_visualization import visualize_maze_with_path,generate_path
+from maze_visualization import visualize_maze_with_path,generate_path,wall_representation,way_representation,swamp_representation
 from queue import Queue
 
 
@@ -22,7 +22,7 @@ def bfs(maze):
             if (
                 0 <= nx < rows
                 and 0 <= ny < cols
-                and maze[nx][ny] == 0
+                and maze[nx][ny] == way_representation()
                 and (nx, ny) not in visited
             ):
                 queue.put(

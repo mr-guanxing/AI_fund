@@ -1,4 +1,4 @@
-from maze_visualization import visualize_maze_with_path,generate_path,cost_for_swamp
+from maze_visualization import cost_for_swamp,visualize_maze_with_path,generate_path,wall_representation,way_representation,swamp_representation
 import heapq
 
 
@@ -24,7 +24,7 @@ def dijkstra(maze):
             if (
                 0 <= nx < rows
                 and 0 <= ny < cols
-                and maze[nx][ny] == 0
+                and maze[nx][ny] == way_representation()
                 and (nx, ny) not in visited
             ):
                 new_cost = current_cost + 1
@@ -37,10 +37,10 @@ def dijkstra(maze):
             elif (
                 0 <= nx < rows
                 and 0 <= ny < cols
-                and maze[nx][ny] == 2
+                and maze[nx][ny] == swamp_representation()
                 and 0 <= nx + dx < rows
                 and 0 <= ny + dy < cols
-                and maze[nx + dx][ny + dy] == 0
+                and maze[nx + dx][ny + dy] == way_representation()
                 and (nx + dx, ny + dy) not in visited
             ):
                 new_cost = current_cost + cost_for_swamp()

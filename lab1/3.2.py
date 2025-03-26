@@ -1,4 +1,4 @@
-from maze_visualization import visualize_maze_with_path,generate_path
+from maze_visualization import visualize_maze_with_path,generate_path,wall_representation,way_representation,swamp_representation
 
 
 def dfs(maze):
@@ -22,7 +22,7 @@ def dfs(maze):
                 0 <= nx < rows
                 and 0 <= ny < cols
                 and (nx, ny) not in visited
-                and maze[nx][ny] == 0
+                and maze[nx][ny] == way_representation()
             ):
                 visited.add((nx, ny))
                 stack.append(((nx, ny), path + direction_map[(dx, dy)]))

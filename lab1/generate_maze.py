@@ -1,7 +1,7 @@
 import random
 
 
-def generate_maze(rows, cols, wall_ratio=0.3, swamp_ratio=0.1):
+def generate_maze(rows, cols, wall_ratio=0.3, swamp_ratio=0.3):
     """
     生成一个迷宫
     :param rows: 迷宫的行数

@@ -42,6 +42,14 @@ def generate_path(path_str):
 
     return res_list
 
+def wall_representation():
+    return 2
+def way_representation():
+    return 0
+def swamp_representation():
+    return 1
+
+
 def cost_for_swamp():
     return 1
 
