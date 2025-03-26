@@ -73,7 +73,7 @@ def a_star(maze):
                     )
 
 
-maze = generate_maze_with_path(10, 10)
+maze = generate_maze_with_path(10,10,0.3,0.1)
 # maze = [
 #     [0, 1, 0, 0, 0],
 #     [0, 1, 0, 1, 0],

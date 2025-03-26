@@ -1,7 +1,15 @@
 import random
+from maze_visualization import (
+    cost_for_swamp,
+    visualize_maze_with_path,
+    generate_path,
+    wall_representation,
+    way_representation,
+    swamp_representation,
+)
 
 
-def generate_maze(rows, cols, wall_ratio=0.3, swamp_ratio=0.3):
+def generate_maze(rows, cols, wall_ratio=0.2, swamp_ratio=0.2):
     """
     生成一个迷宫
     :param rows: 迷宫的行数
@@ -10,20 +18,22 @@ def generate_maze(rows, cols, wall_ratio=0.3, swamp_ratio=0.3):
     :param swamp_ratio: 泥潭的比例
     :return: 迷宫的二维列表
     """
-    maze = [[0 for _ in range(cols)] for _ in range(rows)]
+    assert wall_ratio+swamp_ratio<1
+    maze = [[way_representation() for _ in range(cols)] for _ in range(rows)]
 
     # 确保起点和终点是道路
-    maze[0][0] = 0
-    maze[rows - 1][cols - 1] = 0
+    maze[0][0] = way_representation()
+    maze[rows - 1][cols - 1] = way_representation()
 
     # 随机生成墙壁和泥潭
     for i in range(rows):
         for j in range(cols):
             if (i, j) != (0, 0) and (i, j) != (rows - 1, cols - 1):
-                if random.random() < wall_ratio:
-                    maze[i][j] = 1
-                elif random.random() < swamp_ratio:
-                    maze[i][j] = 2
+                random_number = random.random()
+                if random_number < wall_ratio:
+                    maze[i][j] = wall_representation()
+                elif wall_ratio < random.random() < wall_ratio + swamp_ratio:
+                    maze[i][j] = swamp_representation()
 
     return maze
 
@@ -48,16 +58,16 @@ def dfs(maze):
                 0 <= nx < rows
                 and 0 <= ny < cols
                 and (nx, ny) not in visited
-                and maze[nx][ny] == 0
+                and maze[nx][ny] == way_representation()
             ):
                 visited.add((nx, ny))
                 stack.append(((nx, ny), path + direction_map[(dx, dy)]))
     return False
 
 
-def generate_maze_with_path(rows, cols):
+def generate_maze_with_path(rows, cols, wall_ratio=0.2, swamp_ratio=0.2):
     while True:
-        maze = generate_maze(rows, cols)
+        maze = generate_maze(rows, cols, wall_ratio, swamp_ratio)
         if dfs(maze):
             return maze
 
@@ -68,7 +78,6 @@ if __name__ == "__main__":
 
     # 生成迷宫
     maze = generate_maze_with_path(rows, cols)
-
 
     # 打印迷宫
     for row in maze:
