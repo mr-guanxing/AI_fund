@@ -1,5 +1,5 @@
 # bfs
-from maze_visualization import visualize_maze_with_path
+from maze_visualization import visualize_maze_with_path,generate_path
 from queue import Queue
 
 
@@ -19,45 +19,37 @@ def bfs(maze):
 
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
-            if 0 <= nx < rows and 0 <= ny < cols and maze[nx][ny] == 0 and (nx, ny) not in visited:
+            if (
+                0 <= nx < rows
+                and 0 <= ny < cols
+                and maze[nx][ny] == 0
+                and (nx, ny) not in visited
+            ):
                 queue.put(
-                    ((nx, ny), path + {(-1, 0): "u", (1, 0): "d", (0, -1): "l", (0, 1): "r"}[(dx, dy)]))
+                    (
+                        (nx, ny),
+                        path
+                        + {(-1, 0): "u", (1, 0): "d", (0, -1): "l", (0, 1): "r"}[
+                            (dx, dy)
+                        ],
+                    )
+                )
 
 
-def generate_path(path_str):
-    last = (0, 0)
-    res_list = []
-    res_list.append(last)
-    direction_map = {
-        'u': (-1, 0),
-        'd': (1, 0),
-        'l': (0, -1),
-        'r': (0, 1)
-    }
+# n, m = map(int, input().split())
+# maze = []
 
-    for i in path_str:
-        if i in direction_map:
-            dx, dy = direction_map[i]
-            last = (last[0] + dx, last[1] + dy)
-            res_list.append(last)
+# for i in range(n):
+#     input_list = input().strip().split()
+#     maze.append([int(i) for i in input_list])
 
-    return res_list
-
-
-n, m = map(int, input().split())
-maze = []
-
-for i in range(n):
-    input_list = input().strip().split()
-    maze.append([int(i) for i in input_list])
-
-# maze = [
-#     [0, 1, 0, 0, 0],
-#     [0, 1, 0, 1, 0],
-#     [0, 0, 0, 0, 0],
-#     [0, 1, 1, 1, 0],
-#     [0, 0, 0, 1, 0]
-# ]
+maze = [
+    [0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 0],
+    [0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 0],
+    [0, 0, 0, 1, 0]
+]
 
 # len(path), path, visited
 result = bfs(maze)

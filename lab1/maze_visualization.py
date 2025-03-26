@@ -25,6 +25,27 @@ def visualize_maze_with_path(maze, path, visit_maze):
     plt.show()
 
 
+def generate_path(path_str):
+    last = (0, 0)
+    res_list = []
+    res_list.append(last)
+    direction_map = {"u": (-1, 0), "d": (1, 0), "l": (0, -1), "r": (0, 1)}
+    q = 1
+    for i in path_str:
+        if i in direction_map:
+            dx, dy = direction_map[i]
+            last = (last[0] + dx*q, last[1] + dy*q)
+            q =1
+            res_list.append(last)
+        elif i=="j":
+            q= 2
+
+    return res_list
+
+def cost_for_swamp():
+    return 1
+
+
 if __name__ == "__main__":
     # 提供迷宫的二维数组
     maze = [
