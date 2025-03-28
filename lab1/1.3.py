@@ -7,6 +7,9 @@ class Node():
         self.colour = "white"   
         self.distance = float('inf') 
 
+    def __lt__(self, other):
+        return self.distance < other.distance
+
     def add_edge(self, node, weight):
         self.edge_cost_dic[node] = weight
 
