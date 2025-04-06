@@ -10,22 +10,13 @@ from maze_visualization import (
 
 
 def generate_maze(rows, cols, wall_ratio=0.2, swamp_ratio=0.2):
-    """
-    生成一个迷宫
-    :param rows: 迷宫的行数
-    :param cols: 迷宫的列数
-    :param wall_ratio: 墙壁的比例
-    :param swamp_ratio: 泥潭的比例
-    :return: 迷宫的二维列表
-    """
+
     assert wall_ratio+swamp_ratio<1
     maze = [[way_representation() for _ in range(cols)] for _ in range(rows)]
 
-    # 确保起点和终点是道路
     maze[0][0] = way_representation()
     maze[rows - 1][cols - 1] = way_representation()
 
-    # 随机生成墙壁和泥潭
     for i in range(rows):
         for j in range(cols):
             if (i, j) != (0, 0) and (i, j) != (rows - 1, cols - 1):
@@ -73,12 +64,9 @@ def generate_maze_with_path(rows, cols, wall_ratio=0.2, swamp_ratio=0.2):
 
 
 if __name__ == "__main__":
-    # 设置迷宫的大小
     rows, cols = 10, 10
 
-    # 生成迷宫
     maze = generate_maze_with_path(rows, cols)
 
-    # 打印迷宫
     for row in maze:
         print(row)

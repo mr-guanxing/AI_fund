@@ -1,6 +1,14 @@
-from maze_visualization import cost_for_swamp,visualize_maze_with_path,generate_path,wall_representation,way_representation,swamp_representation
+from maze_visualization import (
+    cost_for_swamp,
+    visualize_maze_with_path,
+    generate_path,
+    wall_representation,
+    way_representation,
+    swamp_representation,
+)
 from generate_maze import generate_maze_with_path
 import heapq
+from cartoon import animate_maze_with_path
 
 
 def manhattan_distance(p1, p2):
@@ -14,6 +22,7 @@ def a_star(maze):
     goal = (rows - 1, cols - 1)
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     visited = set()
+    visit_record = []
     priority_queue = [(manhattan_distance(start, goal), start, "")]
     cost_dic = {start: manhattan_distance(start, goal)}
 
@@ -22,8 +31,9 @@ def a_star(maze):
         if (x, y) in visited:
             continue
         visited.add((x, y))
+        visit_record.append((x, y))
         if (x, y) == goal:
-            return len(path), path, visited
+            return len(path), path, visited , visit_record
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
             if (
@@ -73,7 +83,7 @@ def a_star(maze):
                     )
 
 
-maze = generate_maze_with_path(10,10,0.3,0.1)
+maze = generate_maze_with_path(10, 10, 0.3, 0.1)
 # maze = [
 #     [0, 1, 0, 0, 0],
 #     [0, 1, 0, 1, 0],
@@ -85,7 +95,8 @@ maze = generate_maze_with_path(10,10,0.3,0.1)
 result = a_star(maze)
 path_list = generate_path(result[1])
 visited = result[2]
+visit_list= result[3]
 length = len(result[1]) - result[1].count("j")
 print(length)
 visualize_maze_with_path(maze, path_list, visited)
-
+animate_maze_with_path(maze, path_list, visit_list)
