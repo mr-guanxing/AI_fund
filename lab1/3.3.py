@@ -1,5 +1,7 @@
-from maze_visualization import cost_for_swamp,visualize_maze_with_path,generate_path,wall_representation,way_representation,swamp_representation
+from maze_visualization import cost_for_swamp, visualize_maze_with_path, generate_path, wall_representation, way_representation, swamp_representation
 import heapq
+from cartoon import animate_maze_with_path
+from generate_maze import generate_maze_with_path
 
 
 def dijkstra(maze):
@@ -9,6 +11,7 @@ def dijkstra(maze):
     goal = (rows - 1, cols - 1)
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     visited = set()
+    visit_record = []
     priority_queue = [(0, start, "")]
     cost_dic = {start: 0}
 
@@ -17,8 +20,9 @@ def dijkstra(maze):
         if (x, y) in visited:
             continue
         visited.add((x, y))
+        visit_record.append((x, y))
         if (x, y) == goal:
-            return len(path), path, visited
+            return len(path), path, visited, visit_record
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
             if (
@@ -58,14 +62,7 @@ def dijkstra(maze):
                     )
 
 
-
-maze = [
-    [0, 1, 0, 0, 0],
-    [0, 1, 0, 1, 0],
-    [0, 0, 0, 0, 0],
-    [0, 1, 0, 2, 0],
-    [0, 0, 0, 1, 0],
-]
+maze = generate_maze_with_path(10, 10, 0.3, 0.1)
 
 result = dijkstra(maze)
 path_list = generate_path(result[1])
@@ -73,4 +70,5 @@ visited = result[2]
 length = len(result[1])-result[1].count("j")
 print(length)
 visualize_maze_with_path(maze, path_list, visited)
-
+visit_list= result[3]
+animate_maze_with_path(maze, path_list, visit_list)

@@ -1,6 +1,8 @@
 # bfs
-from maze_visualization import visualize_maze_with_path,generate_path,wall_representation,way_representation,swamp_representation
+from maze_visualization import visualize_maze_with_path, generate_path, wall_representation, way_representation, swamp_representation
 from queue import Queue
+from cartoon import animate_maze_with_path
+from generate_maze import generate_maze_with_path
 
 
 def bfs(maze):
@@ -9,13 +11,16 @@ def bfs(maze):
     goal = (rows - 1, cols - 1)
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
     visited = set()
+    visit_record = []
     queue = Queue()
     queue.put((start, ""))
     while not queue.empty():
         (x, y), path = queue.get()
-        visited.add((x, y))
+        if (x, y) not in visited:
+            visit_record.append((x, y))
+        visited.add((x, y))        
         if (x, y) == goal:
-            return len(path), path, visited
+            return len(path), path, visited ,visit_record
 
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
@@ -43,13 +48,7 @@ def bfs(maze):
 #     input_list = input().strip().split()
 #     maze.append([int(i) for i in input_list])
 
-maze = [
-    [0, 1, 0, 0, 0],
-    [0, 1, 0, 1, 0],
-    [0, 0, 0, 0, 0],
-    [0, 1, 1, 1, 0],
-    [0, 0, 0, 1, 0]
-]
+maze = generate_maze_with_path(10, 10, 0.3, 0.1)
 
 # len(path), path, visited
 result = bfs(maze)
@@ -57,4 +56,6 @@ path_list = generate_path(result[1])
 visited = result[2]
 
 visualize_maze_with_path(maze, path_list, visited)
+visit_list= result[3]
+animate_maze_with_path(maze, path_list, visit_list)
 print(result[0])
